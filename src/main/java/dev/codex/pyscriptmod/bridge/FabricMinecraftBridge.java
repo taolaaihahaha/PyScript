@@ -5,7 +5,6 @@ import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Item;
@@ -56,10 +55,6 @@ public final class FabricMinecraftBridge implements MinecraftBridge {
     public ScriptEntity summon(String entityId, ScriptPos pos) {
         ServerWorld serverWorld = world();
         net.minecraft.entity.EntityType<?> type = Registries.ENTITY_TYPE.get(Identifier.of(entityId));
-        if (serverWorld.getDifficulty() == Difficulty.PEACEFUL && type.getSpawnGroup() == SpawnGroup.MONSTER) {
-            throw new IllegalStateException("Cannot summon hostile mob '" + entityId + "' while difficulty is peaceful");
-        }
-
         Entity entity = type.create(serverWorld, SpawnReason.COMMAND);
         if (entity == null) {
             throw new IllegalStateException("Could not create entity: " + entityId);
@@ -69,7 +64,10 @@ public final class FabricMinecraftBridge implements MinecraftBridge {
         entity.refreshPositionAndAngles(safe.x(), safe.y(), safe.z(), 0.0f, 0.0f);
         boolean spawned = serverWorld.spawnEntity(entity);
         if (!spawned) {
-            throw new IllegalStateException("Failed to spawn entity '" + entityId + "' at " + safe);
+            // Keep script flow alive for automation-style scripts.
+            // Vanilla/game rules may reject or remove entities; this should not hard-fail the VM thread.
+            log("summon skipped/rejected for '" + entityId + "' at " + safe);
+            return new ScriptEntity(entityId, entity.getName().getString(), null);
         }
         return new ScriptEntity(entityId, entity.getName().getString(), entity);
     }
