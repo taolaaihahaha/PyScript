@@ -1,0 +1,19 @@
+say("hello " + get_name(player))
+
+nickname = input("nickname", "builder")
+say("input nickname=" + nickname)
+
+if get_hp(player) < 20:
+    say("hp below full")
+else:
+    say("hp ok")
+
+def spawn_mob():
+    summon("minecraft:zombie", [pos["x"] + 1, pos["y"], pos["z"]])
+
+@event("tick")
+def heartbeat():
+    log("heartbeat for " + get_name(player))
+    wait(20)
+
+spawn_mob()

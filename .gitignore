@@ -1,0 +1,16 @@
+# Gradle / build outputs
+.gradle/
+build/
+out/
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+Thumbs.db
+Desktop.ini
+
+# Logs / temp
+logs/
+*.log
+*.tmp

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "pyscriptmod",
+  "version": "${version}",
+  "name": "PyScript Mod",
+  "description": "Python-like scripting engine MVP for Minecraft Fabric.",
+  "authors": [
+    "Codex"
+  ],
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.codex.pyscriptmod.PyScriptMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.2",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
