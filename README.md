@@ -80,7 +80,7 @@ In `peaceful`, vanilla may remove hostile mobs after spawn. Script execution sti
 
 Output jar:
 
-`build/libs/pyscriptmod-0.1.0.jar`
+`build/libs/pyscriptmod-1.0.0.jar`
 
 ## Bug Report Template
 
